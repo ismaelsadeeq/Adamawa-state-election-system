@@ -1,6 +1,7 @@
 const models = require('../models');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const responseData = {
 	status: true,

@@ -8,6 +8,16 @@ module.exports = {
         unique:true,
         type:Sequelize.UUID
       },
+      stateId: {
+        type: Sequelize.UUID,
+        allowNull:false,
+        onDelete:'CASCADE',
+        references:{
+          model:'states',
+          key:'id',
+          as:'stateId'
+        }
+      },
       name: {
         type: Sequelize.STRING
       },

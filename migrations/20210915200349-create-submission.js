@@ -1,27 +1,34 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('pollingUnits', {
+    await queryInterface.createTable('submissions', {
       id: {
-        type: Sequelize.UUID,
-        allowNull:false,
-        unique:true,
-        type:Sequelize.UUID
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
-      lgaId: {
+      pollingUnitId: {
         type: Sequelize.UUID,
         allowNull:false,
         onDelete:'CASCADE',
         references:{
-          model:'lgas',
+          model:'pollingUnits',
           key:'id',
-          as:'lgaId'
+          as:'pollingUnitId'
         }
       },
-      name: {
-        type: Sequelize.STRING
+      partyId: {
+        type: Sequelize.UUID,
+        allowNull:false,
+        onDelete:'CASCADE',
+        references:{
+          model:'parties',
+          key:'id',
+          as:'partyId'
+        }
       },
-      voters: {
+      votes: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -38,6 +45,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('pollingUnits');
+    await queryInterface.dropTable('submissions');
   }
 };

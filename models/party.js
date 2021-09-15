@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     party.belongsTo(models.election,{
       foreignKey:'electionId'
     });
+    party.hasMany(models.submission,{
+      foreignKey:'partId'
+    })
   }
   party.init({
     name: DataTypes.STRING,

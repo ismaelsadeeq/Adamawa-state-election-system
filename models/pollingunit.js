@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     pollingUnit.belongsTo(models.lga,{
       foreignKey:'lgaId'
     })
+    pollingUnit.hasMany(models.submission,{
+      foreignKey:'pollingUnitId'
+    })
   }
   pollingUnit.init({
     name: DataTypes.STRING,

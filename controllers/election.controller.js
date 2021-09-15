@@ -177,12 +177,47 @@ const submitResult = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  if(data.totalVotes>pollingUnit.voters){
+  if(data.totalVotes > pollingUnit.voters){
     responseData.message = "votes exceeds registered voters";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
   }
+  let results = data.results
+  let party
+  for (let prop in results){
+    let votes
+    party = await models.party.findOne(
+      {
+        where:{
+          id:prop
+        }
+      }
+    );
+    votes = parseInt(party.votes) + parseInt(results[`${prop}`])
+    await models.party.update(
+      {
+        votes:votes
+      },
+      {
+        where:{
+          id:party.id
+        }
+      }
+    );
+    await models.submission.create(
+      {
+        id:uuid.v4(),
+        pollingUnitId:pollingUnit.id,
+        partyId:party.id,
+        votes:results[`${prop}`]
+      }
+    )
+  }
+  responseData.message = "result submitted";
+  responseData.status = true;
+  responseData.data = data;
+  return res.json(responseData);
 }
 
 

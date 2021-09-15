@@ -21,6 +21,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      puNumber:Sequelize.STRING,
       voters: {
         type: Sequelize.STRING
       },

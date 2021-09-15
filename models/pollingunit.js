@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   pollingUnit.init({
     name: DataTypes.STRING,
+    puNumber:DataTypes.STRING,
     voters: DataTypes.STRING
   }, {
     sequelize,

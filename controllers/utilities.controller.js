@@ -70,6 +70,7 @@ const createPollingUnit = async (req,res)=>{
   const pollingUnit = await models.pollingUnit.create(
     {
       lgaId:lgaId,
+      puNumber:data.puNumber,
       name:data.name
     }
   );
@@ -97,6 +98,7 @@ const editPollingUnit = async (req,res)=>{
   const pollingUnit = await models.pollingUnit.update(
     {
       lgaId:lgaId,
+      puNumber:data.puNumber,
       name:data.name
     },
     {

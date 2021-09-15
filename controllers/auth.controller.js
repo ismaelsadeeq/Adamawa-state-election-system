@@ -44,7 +44,7 @@ const register = async (req,res)=>{
     }
   );
   if(!createUser){
-    responseData.message = "you have an account sign-in";
+    responseData.message = "something went wrong";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);

@@ -143,13 +143,46 @@ const publishElection = async (req,res)=>{
 
 const submitResult = async (req,res)=>{
   const data = req.body;
+  const user = req.user;
   if(!data){
     responseData.message = "data is required";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
   }
-  
+  const pollingUnit = await models.pollingUnit.findOne(
+    {
+      where:{
+        puNumber:user.PUNumber
+      }
+    }
+  );
+  const lga = await models.lga.findOne(
+    {
+      where:{
+        id:pollingUnit.lgaId
+      }
+    }
+  );
+  const submissionExist = await models.submission.findOne(
+    {
+      where:{
+        pollingUnitId:pollingUnit.id
+      }
+    }
+  );
+  if(submissionExist){
+    responseData.message = "result already submitted";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  if(data.totalVotes>pollingUnit.voters){
+    responseData.message = "votes exceeds registered voters";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
 }
 
 
@@ -157,7 +190,7 @@ module.exports = {
   createElection,
   getElection,
   getElectionDetailAdmin,
-  getElectionDetail,
+  // getElectionDetail,
   publishElection,
   submitResult
 

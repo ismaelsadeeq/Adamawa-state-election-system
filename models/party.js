@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   party.init({
     name: DataTypes.STRING,
     contestantName: DataTypes.STRING,
-    votes: DataTypes.STRING
+    votes: DataTypes.STRING,
   }, {
     sequelize,
     paranoid:true,

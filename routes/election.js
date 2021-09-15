@@ -13,7 +13,7 @@ router.get('/election/:id',
 );
 router.get('/election-detail/admin',
   passport.authenticate('jwt',{session:false}),
-	controller.getElectionDetail
+	controller.getElectionDetailAdmin
 );
 // router.get('/election-detail',
 //   passport.authenticate('jwt',{session:false}),

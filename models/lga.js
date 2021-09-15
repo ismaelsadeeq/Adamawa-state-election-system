@@ -3,19 +3,19 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class state extends Model {
+  class lga extends Model {
   };
-  state.associate = function(models){
-    state.hasMany(models.lga,{
+  lga.associate = function(models){
+    lga.belongsTo(models.state,{
       foreignKey:'stateId'
-    });
+    })
   }
-  state.init({
+  lga.init({
     name: DataTypes.STRING
   }, {
     sequelize,
     paranoid:true,
-    modelName: 'state',
+    modelName: 'lga',
   });
-  return state;
+  return lga;
 };

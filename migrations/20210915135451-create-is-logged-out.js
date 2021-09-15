@@ -6,8 +6,17 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull:false,
         unique:true,
-        type:Sequelize.UUID,
-        defaultValue:uuid.v4()
+        type:Sequelize.UUID
+      },
+      userId: {
+        type: Sequelize.UUID,
+        allowNull:false,
+        onDelete:'CASCADE',
+        references:{
+          model:'users',
+          key:'id',
+          as:'userId'
+        }
       },
       status: {
         type: Sequelize.BOOLEAN

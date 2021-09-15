@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     lga.belongsTo(models.state,{
       foreignKey:'stateId'
     })
+    lga.hasMany(models.pollingUnit,{
+      foreignKey:'lgaId'
+    })
   }
   lga.init({
     name: DataTypes.STRING

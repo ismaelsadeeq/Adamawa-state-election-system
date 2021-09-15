@@ -1,7 +1,5 @@
 const models = require('../models');
 const uuid = require('uuid');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 
 const responseData = {
 	status: true,
@@ -18,6 +16,7 @@ const createState = async (req,res)=>{
   }
   const state = await models.state.create(
     {
+      id:uuid.v4(),
       name:data.name
     }
   );
@@ -43,6 +42,7 @@ const createLga = async (req,res)=>{
   }
   const lga = await models.lga.create(
     {
+      id:uuid.v4(),
       stateId:stateId,
       name:data.name
     }
@@ -53,7 +53,7 @@ const createLga = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  responseData.message = "state successfully created";
+  responseData.message = "lga successfully created";
   responseData.status = true;
   responseData.data = lga;
   return res.json(responseData);
@@ -69,9 +69,11 @@ const createPollingUnit = async (req,res)=>{
   }
   const pollingUnit = await models.pollingUnit.create(
     {
+      id:uuid.v4(),
       lgaId:lgaId,
       puNumber:data.puNumber,
-      name:data.name
+      name:data.name,
+      voters:data.voters
     }
   );
   if(!pollingUnit){
@@ -99,7 +101,8 @@ const editPollingUnit = async (req,res)=>{
     {
       lgaId:lgaId,
       puNumber:data.puNumber,
-      name:data.name
+      name:data.name,
+      voters:data.voters
     },
     {
       where:{

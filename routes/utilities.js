@@ -3,15 +3,15 @@ var router = express.Router();
 const controller = require('../controllers/utilities.controller')
 const passport = require('passport')
 
-router.post('/create-state',
+router.post('/create',
   passport.authenticate('jwt',{session:false}),
 	controller.createState
 );
-router.post('/create-lga',
+router.post('/create-lga/:stateId',
   passport.authenticate('jwt',{session:false}),
 	controller.createLga
 );
-router.post('/create-pu',
+router.post('/create-pu/:lgaId',
   passport.authenticate('jwt',{session:false}),
 	controller.createPollingUnit
 );

@@ -70,7 +70,12 @@ const deleteElection = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  const election = await models.election.destroy( 
+  const election = await models.election.destroy(
+    { 
+      where:{
+        status:true
+      }
+    }
   ); 
   if(!election){
     responseData.message = "something went wrong";
@@ -95,7 +100,7 @@ const getElectionDetailAdmin = async (req,res)=>{
     }
   ); 
   if(!user.isAdmin){
-    responseData.message = "something went wrong";
+    responseData.message = "user is not an admin";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
@@ -121,7 +126,7 @@ const getElectionDetail = async (req,res)=>{
       ]
     }
   ); 
-  if(!election.status ==true){
+  if(election.status == false){
     responseData.message = "election not published";
     responseData.status = false;
     responseData.data = undefined;
@@ -139,9 +144,21 @@ const getElectionDetail = async (req,res)=>{
   return res.json(responseData);
 }
 const publishElection = async (req,res)=>{
+  const user = req.user;
+  if(!user.isAdmin){
+    responseData.message = "user is not an admin";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
   const election = await models.election.update(
     {
       status:true
+    },
+    {
+      where:{
+        status:false
+      }
     }
   );
   if(!election){
@@ -192,7 +209,7 @@ const submitResult = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  if(data.totalVotes > pollingUnit.voters){
+  if(parseInt(data.totalVotes) > parseInt(pollingUnit.voters)){
     responseData.message = "votes exceeds registered voters";
     responseData.status = false;
     responseData.data = undefined;
@@ -201,7 +218,7 @@ const submitResult = async (req,res)=>{
   let results = data.results
   let party
   for (let prop in results){
-    let votes
+    let votes;
     party = await models.party.findOne(
       {
         where:{
@@ -288,7 +305,6 @@ const editParty = async (req,res)=>{
   if(typeof(data.contestantName)=="object"){
     data.contestantName = JSON.stringify(data.contestantName)
   }
-  console.log(typeof(data.contestantName))
   const party = await models.party.update(
     {
       name:data.name,

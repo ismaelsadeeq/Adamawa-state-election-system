@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey:'electionId'
     });
     party.hasMany(models.submission,{
-      foreignKey:'partId'
+      foreignKey:'partyId'
     })
   }
   party.init({

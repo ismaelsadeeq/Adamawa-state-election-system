@@ -26,11 +26,11 @@ router.get('/admin',
 router.get('/election-detail',
 	controller.getElectionDetail
 );
-router.get('/publish/:id',
+router.put('/publish',
   passport.authenticate('jwt',{session:false}),
 	controller.publishElection
 );
-router.post('/submit/:id',
+router.post('/submit',
   passport.authenticate('jwt',{session:false}),
 	controller.submitResult
 );

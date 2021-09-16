@@ -19,5 +19,4 @@ router.get('/logout',
 	passport.authenticate('jwt',{session:false}),
 	controller.logout
 );
-
 module.exports = router;

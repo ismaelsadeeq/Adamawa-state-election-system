@@ -51,7 +51,7 @@ const getElection = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  if(!election.status ==true){
+  if(election.status == false){
     responseData.message = "election not published";
     responseData.status = false;
     responseData.data = undefined;

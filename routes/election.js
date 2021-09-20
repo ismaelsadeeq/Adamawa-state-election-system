@@ -23,7 +23,7 @@ router.get('/admin',
   passport.authenticate('jwt',{session:false}),
 	controller.getElectionDetailAdmin
 );
-router.get('/election-detail',
+router.get('/detail',
 	controller.getElectionDetail
 );
 router.put('/publish',

@@ -57,12 +57,6 @@ const getElection = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  if(!election){
-    responseData.message = "something went wrong";
-    responseData.status = false;
-    responseData.data = undefined;
-    return res.json(responseData);
-  }
   responseData.message = "completed";
   responseData.status = true;
   responseData.data = election;
@@ -112,7 +106,7 @@ const getElectionDetailAdmin = async (req,res)=>{
     return res.json(responseData);
   }
   if(!election){
-    responseData.message = "something went wrong";
+    responseData.message = "No election at the moment";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
@@ -132,14 +126,14 @@ const getElectionDetail = async (req,res)=>{
       ]
     }
   ); 
-  if(election.status == false){
-    responseData.message = "election not published";
+  if(!election){
+    responseData.message = "No election at the moment";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
   }
-  if(!election){
-    responseData.message = "something went wrong";
+  if(election.status == false){
+    responseData.message = "election not published";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);

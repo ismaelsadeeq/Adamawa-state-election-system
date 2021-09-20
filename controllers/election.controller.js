@@ -45,6 +45,12 @@ const createElection = async (req,res)=>{
 const getElection = async (req,res)=>{
   const election = await models.election.findOne( 
   ); 
+  if(!election){
+    responseData.message = "No election at the moment";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
   if(!election.status ==true){
     responseData.message = "election not published";
     responseData.status = false;

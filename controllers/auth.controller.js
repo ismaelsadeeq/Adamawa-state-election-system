@@ -24,7 +24,20 @@ const register = async (req,res)=>{
     }
   );
   if(accountExist){
-    responseData.message = "account already exist sign up";
+    responseData.message = "account already exist sign in";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  const puExist = await models.pollingUnit.findOne(
+    {
+      where:{
+        puNumber:data.PUNumber
+      }
+    }
+  );
+  if(!puExist){
+    responseData.message = "polling unit doesnt exist";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
@@ -71,7 +84,7 @@ const adminRegister = async (req,res)=>{
     }
   );
   if(accountExist){
-    responseData.message = "account already exist sign up";
+    responseData.message = "account already exist sign in";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);

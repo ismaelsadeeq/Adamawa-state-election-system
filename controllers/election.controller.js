@@ -8,6 +8,13 @@ const responseData = {
 }
 const createElection = async (req,res)=>{
   const data = req.body;
+  const user = req.user
+  if(!user.isAdmin){
+    responseData.message = "user is not an admin";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
   if(!data){
     responseData.message = "data is required";
     responseData.status = false;
@@ -65,7 +72,7 @@ const getElection = async (req,res)=>{
 const deleteElection = async (req,res)=>{
   const user = req.user
   if(!user.isAdmin){
-    responseData.message = "something went wrong";
+    responseData.message = "user is not an admin";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
@@ -77,7 +84,14 @@ const deleteElection = async (req,res)=>{
       }
     }
   ); 
-  if(!election){
+  const electionTwo = await models.election.destroy(
+    { 
+      where:{
+        status:false
+      }
+    }
+  );
+  if(!election && !electionTwo){
     responseData.message = "something went wrong";
     responseData.status = false;
     responseData.data = undefined;
@@ -172,6 +186,35 @@ const publishElection = async (req,res)=>{
   responseData.data = election;
   return res.json(responseData);
 }
+const unPublishElection = async (req,res)=>{
+  const user = req.user;
+  if(!user.isAdmin){
+    responseData.message = "user is not an admin";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  const election = await models.election.update(
+    {
+      status:false
+    },
+    {
+      where:{
+        status:true
+      }
+    }
+  );
+  if(!election){
+    responseData.message = "something went wrong";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  responseData.message = "election un-published";
+  responseData.status = true;
+  responseData.data = election;
+  return res.json(responseData);
+}
 
 const submitResult = async (req,res)=>{
   const data = req.body;
@@ -254,6 +297,13 @@ const submitResult = async (req,res)=>{
 
 const createParty = async (req,res)=>{
   const data = req.body;
+  const user = req.user
+  if(!user.isAdmin){
+    responseData.message = "user is not an admin";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
   if(!data){
     responseData.message = "data is required";
     responseData.status = false;
@@ -263,7 +313,7 @@ const createParty = async (req,res)=>{
   const partyExist = await models.party.findOne(
     {
       where:{
-        name:data.name
+        name:data.partyName
       }
     }
   )
@@ -282,7 +332,7 @@ const createParty = async (req,res)=>{
     {
       id:uuid.v4(),
       electionId:election.id,
-      name:data.name,
+      name:data.partyName,
       contestantName:data.contestantName,
       votes:"0"
     }
@@ -355,6 +405,7 @@ module.exports = {
   getElectionDetailAdmin,
   getElectionDetail,
   publishElection,
+  unPublishElection,
   submitResult,
   createParty,
   editParty,

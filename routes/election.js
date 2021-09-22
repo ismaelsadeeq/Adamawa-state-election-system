@@ -30,6 +30,10 @@ router.put('/publish',
   passport.authenticate('jwt',{session:false}),
 	controller.publishElection
 );
+router.put('/un-publish',
+  passport.authenticate('jwt',{session:false}),
+	controller.unPublishElection
+);
 router.post('/submit',
   passport.authenticate('jwt',{session:false}),
 	controller.submitResult

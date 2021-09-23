@@ -23,13 +23,13 @@ router.delete('/delete-pu/:id',
   passport.authenticate('jwt',{session:false}),
 	controller.deletePollingUnit
 );
+router.post('/lga/name',
+  passport.authenticate('jwt',{session:false}),
+	controller.getALga
+);
 router.get('/lga',
   passport.authenticate('jwt',{session:false}),
 	controller.getLga
-);
-router.get('/lga/name',
-  passport.authenticate('jwt',{session:false}),
-	controller.getALga
 );
 router.get('/lga/pu/:id',
   passport.authenticate('jwt',{session:false}),

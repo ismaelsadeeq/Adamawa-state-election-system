@@ -163,13 +163,19 @@ const getLga = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  responseData.message = "sucessful";
+  responseData.message = "successful";
   responseData.status = true;
   responseData.data = lga;
   return res.json(responseData);
 }
 const getALga = async (req,res)=>{
   const name = req.body.name;
+  if(!name){
+    responseData.message = "lga name is required";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
   const lga = await models.lga.findOne(
     {
       where:{
@@ -178,7 +184,7 @@ const getALga = async (req,res)=>{
     }
   );
   if(!lga){
-    responseData.message = "something went wrong";
+    responseData.message = "lga doest not exist";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);

@@ -189,7 +189,7 @@ const getALga = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  responseData.message = "sucessful";
+  responseData.message = "successful";
   responseData.status = true;
   responseData.data = lga;
   return res.json(responseData);
@@ -212,12 +212,12 @@ const getLgaPu = async (req,res)=>{
     }
   );
   if(!pollingUnit){
-    responseData.message = "something went wrong";
+    responseData.message = "No Polling units";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
   }
-  responseData.message = "sucessful";
+  responseData.message = "successful";
   responseData.status = true;
   responseData.data = pollingUnit;
   return res.json(responseData);

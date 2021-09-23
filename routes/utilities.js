@@ -27,12 +27,13 @@ router.post('/lga/name',
   passport.authenticate('jwt',{session:false}),
 	controller.getALga
 );
-router.get('/lga',
-  passport.authenticate('jwt',{session:false}),
-	controller.getLga
-);
 router.get('/lga/pu/:id',
   passport.authenticate('jwt',{session:false}),
 	controller.getLgaPu
 );
+router.get('/lga',
+  passport.authenticate('jwt',{session:false}),
+	controller.getLga
+);
+
 module.exports = router;

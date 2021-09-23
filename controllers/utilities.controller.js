@@ -1,5 +1,6 @@
 const models = require('../models');
 const uuid = require('uuid');
+const { Op } = require("sequelize");
 
 const responseData = {
 	status: true,
@@ -167,6 +168,26 @@ const getLga = async (req,res)=>{
   responseData.data = lga;
   return res.json(responseData);
 }
+const getALga = async (req,res)=>{
+  const name = req.body.name;
+  const lga = await models.lga.findOne(
+    {
+      where:{
+        name:{[Op.like]: `%${name}%`}
+      }
+    }
+  );
+  if(!lga){
+    responseData.message = "something went wrong";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  responseData.message = "sucessful";
+  responseData.status = true;
+  responseData.data = lga;
+  return res.json(responseData);
+}
 const getLgaPu = async (req,res)=>{
   const lgaId = req.params.id
 
@@ -203,5 +224,6 @@ module.exports = {
   editPollingUnit,
   deletePollingUnit,
   getLga,
+  getALga,
   getLgaPu
 }

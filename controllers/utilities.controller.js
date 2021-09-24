@@ -194,6 +194,32 @@ const getALga = async (req,res)=>{
   responseData.data = lga;
   return res.json(responseData);
 }
+const getAPollingUnit = async (req,res)=>{
+  const name = req.body.name;
+  if(!name){
+    responseData.message = "lga name is required";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  const lga = await models.lga.findOne(
+    {
+      where:{
+        name:{[Op.like]: `%${name}%`}
+      }
+    }
+  );
+  if(!lga){
+    responseData.message = "lga doest not exist";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  responseData.message = "successful";
+  responseData.status = true;
+  responseData.data = lga;
+  return res.json(responseData);
+}
 const getLgaPu = async (req,res)=>{
   const lgaId = req.params.id
 
@@ -231,5 +257,6 @@ module.exports = {
   deletePollingUnit,
   getLga,
   getALga,
-  getLgaPu
+  getLgaPu,
+  getAPollingUnit
 }

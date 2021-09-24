@@ -72,8 +72,8 @@ const createPollingUnit = async (req,res)=>{
     {
       id:uuid.v4(),
       lgaId:lgaId,
-      puNumber:data.puNumber,
-      name:data.name,
+      puNumber:data.pollingUnitNumber,
+      name:data.pollingUnitName,
       voters:data.voters
     }
   );

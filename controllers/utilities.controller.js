@@ -195,29 +195,29 @@ const getALga = async (req,res)=>{
   return res.json(responseData);
 }
 const getAPollingUnit = async (req,res)=>{
-  const name = req.body.name;
+  const name = req.body.puName;
   if(!name){
-    responseData.message = "lga name is required";
+    responseData.message = "pu name is required";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
   }
-  const lga = await models.lga.findOne(
+  const pu = await models.pollingUnit.findOne(
     {
       where:{
         name:{[Op.like]: `%${name}%`}
       }
     }
   );
-  if(!lga){
-    responseData.message = "lga doest not exist";
+  if(!pu){
+    responseData.message = "pu doest not exist";
     responseData.status = false;
     responseData.data = undefined;
     return res.json(responseData);
   }
   responseData.message = "successful";
   responseData.status = true;
-  responseData.data = lga;
+  responseData.data = pu;
   return res.json(responseData);
 }
 const getLgaPu = async (req,res)=>{

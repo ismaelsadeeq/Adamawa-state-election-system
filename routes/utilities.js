@@ -31,6 +31,10 @@ router.get('/lga/pu/:id',
   passport.authenticate('jwt',{session:false}),
 	controller.getLgaPu
 );
+router.get('/lga/pu',
+  passport.authenticate('jwt',{session:false}),
+	controller.getAPollingUnit
+);
 router.get('/lga',
   passport.authenticate('jwt',{session:false}),
 	controller.getLga

@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     election.hasMany(models.party,{
       foreignKey:'electionId'
     });
+    election.hasMany(models.submission,{
+      foreignKey:'electionId'
+    });
   }
   election.init({
     name: DataTypes.STRING,

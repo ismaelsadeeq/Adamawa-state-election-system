@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     submission.belongsTo(models.party,{
       foreignKey:'partyId'
     });
+    submission.belongsTo(models.election,{
+      foreignKey:'electionId'
+    });
   }
   submission.init({
     votes: DataTypes.STRING

@@ -23,6 +23,14 @@ router.get('/admin',
   passport.authenticate('jwt',{session:false}),
 	controller.getElectionDetailAdmin
 );
+router.get('/user/detail',
+	passport.authenticate('jwt',{session:false}),
+	controller.getElectionDetailUser
+);
+router.get('/user/parties',
+	passport.authenticate('jwt',{session:false}),
+	controller.getElectionParties
+);
 router.get('/detail',
 	controller.getElectionDetail
 );

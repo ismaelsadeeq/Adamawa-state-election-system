@@ -195,7 +195,6 @@ const getALga = async (req,res)=>{
   return res.json(responseData);
 }
 const getAPollingUnit = async (req,res)=>{
-  console.log(req.body);
   const name = req.body.puName;
   if(!name){
     responseData.message = "pu name is required";
@@ -207,6 +206,27 @@ const getAPollingUnit = async (req,res)=>{
     {
       where:{
         name:{[Op.like]: `%${name}%`}
+      }
+    }
+  );
+  if(!pu){
+    responseData.message = "pu doest not exist";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  responseData.message = "successful";
+  responseData.status = true;
+  responseData.data = pu;
+  return res.json(responseData);
+}
+const getAPollingUnitWithNumber = async (req,res)=>{
+  const user = req.user;
+  const number = user.PUNumber
+  const pu = await models.pollingUnit.findOne(
+    {
+      where:{
+        puNumber:number
       }
     }
   );
@@ -259,5 +279,6 @@ module.exports = {
   getLga,
   getALga,
   getLgaPu,
-  getAPollingUnit
+  getAPollingUnit,
+  getAPollingUnitWithNumber
 }

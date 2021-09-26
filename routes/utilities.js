@@ -3,6 +3,10 @@ var router = express.Router();
 const controller = require('../controllers/utilities.controller')
 const passport = require('passport')
 
+router.get('/polling-unit',
+  passport.authenticate('jwt',{session:false}),
+	controller.getAPollingUnitWithNumber
+);
 router.post('/create',
   passport.authenticate('jwt',{session:false}),
 	controller.createState

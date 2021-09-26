@@ -399,10 +399,74 @@ const deleteParty = async (req,res)=>{
   return res.json(responseData);
 }
 
+const getElectionDetailUser = async (req,res)=>{
+  const user = req.user;
+  const pollingUnit = await models.pollingUnit.findOne(
+    {
+      where:{
+        puNumber:user.PUNumber
+      }
+    }
+  );
+  const submissionExist = await models.submission.findOne(
+    {
+      where:{
+        pollingUnitId:pollingUnit.id
+      }
+    }
+  );
+  if(submissionExist){
+    responseData.message = "result already submitted";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  const election = await models.election.findOne(
+    {
+      include:[
+        {
+          model:models.party
+        }
+      ]
+    }
+  ); 
+  if(!election){
+    responseData.message = "No election at the moment";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
+  responseData.message = "completed";
+  responseData.status = true;
+  responseData.data = election;
+  return res.json(responseData);
+}
+const getElectionParties = async (req,res)=>{
+  const election = await models.election.findOne(
+  );
+  if(election){
+    const parties = await models.party.findAll(
+      {
+        where:{
+          electionId:election.id
+        }
+      }
+    )
+    responseData.message = "completed";
+    responseData.status = true;
+    responseData.data = parties;
+    return res.json(responseData);
+  }
+  responseData.message = "no election";
+  responseData.status = true;
+  responseData.data = undefined;
+  return res.json(responseData);
+}
 module.exports = {
   createElection,
   getElection,
   getElectionDetailAdmin,
+  getElectionDetailUser,
   getElectionDetail,
   publishElection,
   unPublishElection,
@@ -410,5 +474,6 @@ module.exports = {
   createParty,
   editParty,
   deleteParty,
-  deleteElection
+  deleteElection,
+  getElectionParties
 }

@@ -8,6 +8,16 @@ module.exports = {
         unique:true,
         type:Sequelize.UUID
       },
+      electionId: {
+        type: Sequelize.UUID,
+        allowNull:false,
+        onDelete:'CASCADE',
+        references:{
+          model:'elections',
+          key:'id',
+          as:'electionId'
+        }
+      },
       pollingUnitId: {
         type: Sequelize.UUID,
         allowNull:false,

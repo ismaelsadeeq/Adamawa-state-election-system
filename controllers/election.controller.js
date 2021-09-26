@@ -280,12 +280,14 @@ const submitResult = async (req,res)=>{
         }
       }
     );
+    const election = await models.election.findOne()
     await models.submission.create(
       {
         id:uuid.v4(),
         pollingUnitId:pollingUnit.id,
         partyId:party.id,
-        votes:results[`${prop}`]
+        votes:results[`${prop}`],
+        electionId:election.id
       }
     )
   }
@@ -310,10 +312,13 @@ const createParty = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
+  const election = await models.election.findOne( 
+  ); 
   const partyExist = await models.party.findOne(
     {
       where:{
-        name:data.partyName
+        name:data.partyName,
+        electionId:election.id
       }
     }
   )
@@ -323,8 +328,6 @@ const createParty = async (req,res)=>{
     responseData.data = undefined;
     return res.json(responseData);
   }
-  const election = await models.election.findOne( 
-  ); 
   if(typeof(data.contestantName)=="object"){
     data.contestantName = JSON.stringify(data.contestantName)
   }
@@ -401,6 +404,13 @@ const deleteParty = async (req,res)=>{
 
 const getElectionDetailUser = async (req,res)=>{
   const user = req.user;
+  const electionId = await models.election.findOne()
+  if(!electionId){
+    responseData.message = "No election at the moment";
+    responseData.status = false;
+    responseData.data = undefined;
+    return res.json(responseData);
+  }
   const pollingUnit = await models.pollingUnit.findOne(
     {
       where:{
@@ -411,7 +421,8 @@ const getElectionDetailUser = async (req,res)=>{
   const submissionExist = await models.submission.findOne(
     {
       where:{
-        pollingUnitId:pollingUnit.id
+        pollingUnitId:pollingUnit.id,
+        electionId:electionId.id
       }
     }
   );
